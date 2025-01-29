@@ -8,7 +8,7 @@ const ProductsButton = ({ number_of_products, cta }) => {
   return (
     <Link
       href={cta.href}
-      className="min-w-min px-2 flex items-center gap-2 text-sm text-white text-nowrap rounded-full backdrop-blur-md shadow-md bg-white/10 border border-white/10"
+      className="min-w-min px-2 flex items-center gap-2 text-sm text-white text-nowrap rounded-full backdrop-blur-md shadow-md bg-white/10 border border-white/10 hover:scale-105 hover:bg-white/20 translate duration-500 ease-in-out"
     >
       <Image
         src={"/lightbulb.svg"}
@@ -65,16 +65,33 @@ const ProductCard = ({
     </div>
   );
 };
+
 const ProductsScroll = ({ products }) => {
   return (
-    <ul className="absolute -bottom-4 w-full flex gap-6 text-lg overflow-x-auto scrollbar-hide sm:text-2xl md:-bottom-6 xl:-bottom-14  xl:text-3xl">
-      {products.map((product, index) => (
-        <li key={index} className="flex justify-between items-center gap-6">
-          <VscCircleLargeFilled size={16} className="text-yellow-400" />
-          <span className="text-nowrap">{product.text}</span>
-        </li>
-      ))}
-    </ul>
+    <div className="absolute -bottom-4 w-full flex gap-6 text-lg overflow-hidden scrollbar-hide sm:text-2xl md:-bottom-6 xl:-bottom-14  xl:text-3xl">
+      <ul className="flex gap-6 animate-scroll whitespace-nowrap">
+        {products.map((product, index) => (
+          <li
+            key={`product-${index}`}
+            className="flex justify-between items-center gap-6"
+          >
+            <VscCircleLargeFilled size={16} className="text-yellow-400" />
+            <span className="whitespace-nowrap">{product.text}</span>
+          </li>
+        ))}
+      </ul>
+      <ul className="flex gap-6 animate-scroll whitespace-nowrap">
+        {products.map((product, index) => (
+          <li
+            key={`product-${index}`}
+            className="flex justify-between items-center gap-6"
+          >
+            <VscCircleLargeFilled size={16} className="text-yellow-400" />
+            <span className="whitespace-nowrap">{product.text}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
