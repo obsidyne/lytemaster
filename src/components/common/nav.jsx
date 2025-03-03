@@ -26,8 +26,8 @@ const lightBgPaths = ["/"];
 const navItems = [
   { name: "Products", href: "/products", dropdown: null },
   { name: "Projects", href: "/projects", dropdown: null },
-  { name: "About us", href: "#", dropdown: null },
-  { name: "News", href: "#", dropdown: null },
+  { name: "About us", href: "/about", dropdown: null },
+  { name: "News", href: "/news", dropdown: null },
   { name: "Contact", href: "#", dropdown: false, cta: true },
 ];
 
@@ -40,6 +40,8 @@ const variants = {
 const navItemVariants = {
   base: "relative mx-2 group lg:text-xs xl:text-lg",
   cta: "px-8 py-2 rounded-full bg-[#E6E6FA] text-black hover:bg-black hover:text-white hover:scale-105 transition duration-500",
+  ctaDark:
+    "px-8 py-2 rounded-full bg-black text-white hover:bg-[#E6E6FA] hover:text-black hover:scale-105 transition duration-500",
 };
 
 const Dropdown = ({ items, isOpen, setIsOpen }) => {
@@ -76,7 +78,11 @@ const NavItem = ({ item }) => {
       <Link
         href={item.href}
         className={`${
-          item.cta ? navItemVariants.cta : ""
+          item.cta
+            ? lightBgPaths.includes(pathname)
+              ? navItemVariants.cta
+              : navItemVariants.ctaDark
+            : ""
         } flex items-center gap-2`}
       >
         {item.name}
