@@ -392,3 +392,24 @@ export const landingData = {
     },
   },
 };
+
+const newsItemData = {
+  thumbnail: placeholderImages.hero,
+  title: "Lorem ipsum dolor sit amet consectetur. Nibh sit sit non adipiscing.",
+  description:
+    "Driven by the increasing demand for energy efficient lighting, Lyte Master GmbH has, Since the late 2000s...",
+  date: "16 February 2025",
+  href: "#",
+};
+
+export const newsPageData = {
+  featured: {
+    thumbnail: placeholderImages.hero,
+    title:
+      "Lorem ipsum dolor sit amet consectetur. Nibh sit sit non adipiscing.",
+    description:
+      "Lorem ipsum dolor sit amet consectetur. Quis scelerisque in vitae habitasse quisque. Consectetur urna feugiat sollicitudin bibendum elit viverra nunc...",
+    href: "#",
+  },
+  news: Array(9).fill(newsItemData),
+};
