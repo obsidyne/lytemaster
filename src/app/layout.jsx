@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`w-full h-full flex-col ${dmSerifDisplay.variable} ${bebasNeue.variable} ${satoshiVariable.variable} antialiased font-satoshiVariable overscroll-none scroll-smooth bg-[#F7F2EA]`}
+        className={`w-full min-h-screen h-full flex flex-col ${dmSerifDisplay.variable} ${bebasNeue.variable} ${satoshiVariable.variable} antialiased font-satoshiVariable overscroll-none scroll-smooth bg-[#F7F2EA]`}
       >
         <common.Nav />
         <main className="z-1 w-full flex-1 flex flex-col scroll-smooth">
