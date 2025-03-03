@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Branding from "@/components/common/branding";
 
-const lightBgPaths = ["/projects"];
+const lightBgPaths = ["/"];
 // const navItems = [
 //   {
 //     name: "Products",
@@ -24,15 +24,7 @@ const lightBgPaths = ["/projects"];
 // ];
 
 const navItems = [
-  {
-    name: "Products",
-    href: "#",
-    dropdown: [
-      { name: "Product 1", href: "#" },
-      { name: "Product 2", href: "#" },
-      { name: "Product 3", href: "#" },
-    ],
-  },
+  { name: "Products", href: "/products", dropdown: null },
   { name: "Projects", href: "/projects", dropdown: null },
   { name: "About us", href: "#", dropdown: null },
   { name: "News", href: "#", dropdown: null },
@@ -77,7 +69,7 @@ const NavItem = ({ item }) => {
 
   return (
     <li
-      className={`${navItemVariants.base} uppercase ${lightBgPaths.includes(pathname) ? "text-black" : "text-white"}`}
+      className={`${navItemVariants.base} uppercase ${lightBgPaths.includes(pathname) ? "text-white" : "text-black"}`}
       onMouseOver={() => setIsOpen(true)}
       onMouseOut={() => setIsOpen(false)}
     >
@@ -119,7 +111,7 @@ const MenuButton = ({ navrailOpen, setNavrailOpen, className = "" }) => {
   const pathname = usePathname();
   return (
     <button
-      className={`${className} flex items-center gap-2 text-sm ${lightBgPaths.includes(pathname) ? "text-black" : "text-white"}`}
+      className={`${className} flex items-center gap-2 text-sm ${lightBgPaths.includes(pathname) ? "text-white" : "text-black"}`}
       onClick={() => setNavrailOpen(!navrailOpen)}
     >
       {navrailOpen ? <X size={24} /> : <Menu size={24} />}
