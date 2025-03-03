@@ -9,7 +9,7 @@ const Breadcrumbs = () => {
         Home
       </a>
       <span className="font-bold">/</span>
-      <span className="whitespace-pre"> About</span>
+      <span className="whitespace-pre"> News</span>
     </div>
   );
 };
@@ -74,9 +74,9 @@ const FeaturedNewsCard = ({ thumbnail, title, description, href }) => {
 
 export default function NewsPage() {
   return (
-    <div className="w-full h-full my-16 p-8 flex flex-col justify-center items-start gap-5 sm:my-16 sm:px-16 xl:my-24">
+    <div className="h-max my-16 p-8 flex flex-col justify-center items-start gap-5 sm:my-20 sm:px-16 2xl:my-44 2xl:gap-12">
       <Breadcrumbs />
-      <h1 className="text-5xl font-bold xl:text-6xl">News</h1>
+      <h1 className="text-5xl font-bold 2xl:text-6xl">News</h1>
       <FeaturedNewsCard {...newsPageData.featured} />
       <NewsGrid news={newsPageData.news} />
     </div>
