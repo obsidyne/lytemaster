@@ -1,20 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 
 export default function VideoCarousel({ videos }) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const timeoutRef = useRef(null);
-
-    const resetAutoplay = () => {
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        timeoutRef.current = setTimeout(() => {
-            setCurrentIndex((prev) => (prev + 1) % videos.length);
-        }, 5000);
-    };
-
-    useEffect(() => {
-        resetAutoplay();
-        return () => timeoutRef.current && clearTimeout(timeoutRef.current);
-    }, [currentIndex]);
 
     return (
         <div className="w-full h-screen hidden lg:block">
@@ -23,18 +10,14 @@ export default function VideoCarousel({ videos }) {
                     key={currentIndex}
                     src={videos[currentIndex]}
                     autoPlay
-                    loop
                     muted
                     className="w-full h-full object-cover"
+                    onEnded={() =>
+                        setCurrentIndex((currentIndex + 1) % videos.length)
+                    }
                 />
                 {/* Overlaid Indicators */}
-                <div
-                    className="z-10 absolute top-0 left-0 w-full h-full py-4 flex flex-col justify-end items-center"
-                    onMouseEnter={() =>
-                        timeoutRef.current && clearTimeout(timeoutRef.current)
-                    }
-                    onMouseLeave={resetAutoplay}
-                >
+                <div className="z-10 absolute top-0 left-0 w-full h-full py-4 flex flex-col justify-end items-center">
                     <div className=" flex space-x-2 bg-black/40 px-2 py-[0.4rem] rounded-full">
                         {videos.map((_, idx) => (
                             <button
