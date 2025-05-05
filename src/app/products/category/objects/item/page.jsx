@@ -24,19 +24,12 @@ export default function Item() {
   const product_id = searchParams.get('product_id');
 
   const [loading, setLoading] = useState(true);
-
-
   const [parameterItems, setParameterItems] = useState([]);
+  const [selectedWattage, setSelectedWattage] = useState(null);
 
-
-  const [selectedWattage , setSelectedWattage] = useState(null)
-
-
-  // state variables for checking if images are there ( bad method : futuril mattim)
-
-  const [ ld_diagram , setLdDiagram] =  useState(true);
-  const [ technicalDiagram , setTechnicalDiagram ] = useState(true)
-
+  // state variables for checking if images are there
+  const [ld_diagram, setLdDiagram] = useState(true);
+  const [technicalDiagram, setTechnicalDiagram] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
@@ -47,7 +40,7 @@ export default function Item() {
       axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/${category_id}/products`)
         .then(response => {
           const product = response.data.find(item => item.product_id == product_id);
-          console.log(product)
+          console.log(product);
           setCurrentProduct(product);  // Set the current product data
         })
         .catch(error => {
@@ -58,10 +51,10 @@ export default function Item() {
 
   useEffect(() => {
     if (product_id) {
-      console.log('fetching')
+      console.log('fetching');
       axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/product-wattages/${product_id}`)
         .then(response => {
-          console.log(response.data)
+          console.log(response.data);
           setParameterItems(response.data);
         })
         .catch(error => {
@@ -80,6 +73,22 @@ export default function Item() {
   // Utility function to handle missing data
   const getField = (field, fallback = 'Not Available') => {
     return currentProduct[field] || fallback;
+  };
+
+  // Helper function to safely get datasheet path and handle null/undefined values
+  const getDatasheetImagePath = (item) => {
+    if (!item || !item.product_datasheet) {
+      return "/fake";
+    }
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/light_distribution/${item.product_datasheet.replace('.pdf', '')}.png`;
+  };
+
+  // Helper function to safely get technical diagram path and handle null/undefined values
+  const getTechnicalDiagramPath = (item) => {
+    if (!item || !item.product_datasheet) {
+      return "/fake";
+    }
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/diagram/${item.product_datasheet.replace('.pdf', '')}.png`;
   };
 
   return (
@@ -101,36 +110,29 @@ export default function Item() {
       <div className="flex flex-col items-center justify-center w-full">
         <div className="flex flex-col md:flex-row lg:gap-6 gap-6 mt-6 md:px-10 px-0 justify-center items-center">
           <img
-            src= {`${process.env.NEXT_PUBLIC_BASE_URL}/images/${getField('product_name')}.png`}
+            src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${getField('product_name')}.png`}
             alt="Dazzle Light"
             className="md:w-96 w-80 aspect-square rounded-2xl border-2 border-black"
           />
-          {/* <img
-            src='/assets/products/sample_bulb_cutout.png'
-            alt="Cutout Diagram"
-            className="md:w-96 w-80 aspect-square rounded-2xl border-2 border-black"
-          /> */}
+          
           <img
-           src= { selectedWattage == null ?
-              (parameterItems.length != 0 ? (parameterItems[0].product_datasheet)? `${process.env.NEXT_PUBLIC_BASE_URL}/light_distribution/${parameterItems[0].product_datasheet.replace('.pdf', '')}.png`: "/fake": "/fake"):
-              `${process.env.NEXT_PUBLIC_BASE_URL}/light_distribution/${selectedWattage.product_datasheet.replace('.pdf', '')}.png`
-            
+            src={selectedWattage 
+              ? getDatasheetImagePath(selectedWattage) 
+              : (parameterItems.length > 0 ? getDatasheetImagePath(parameterItems[0]) : "/fake")
             }
-            onError={()=> setLdDiagram(false)}
-            // src= {`/diagram/${ getField('product_datasheet').replace('.pdf', '')  }.png`}
-            // alt="Cutout Diagram"
-            className={`md:h-96 w-1/2 lg:w-auto rounded-2xl border-2 border-black aspect-square object-cover object-center ${ld_diagram? "": "hidden"}`}
+            onError={() => setLdDiagram(false)}
+            alt="Light Distribution Diagram"
+            className={`md:h-96 w-1/2 lg:w-auto rounded-2xl border-2 border-black aspect-square object-cover object-center ${ld_diagram ? "" : "hidden"}`}
           />
-            <img
-           src= { selectedWattage == null ?
-              (parameterItems.length != 0 ?  (parameterItems[0].product_datasheet)? `${process.env.NEXT_PUBLIC_BASE_URL}/diagram/${parameterItems[0].product_datasheet.replace('.pdf', '')}.png`: "/fake": "/fake"):
-              `${process.env.NEXT_PUBLIC_BASE_URL}/diagram/${selectedWattage.product_datasheet.replace('.pdf', '')}.png`
-
+          
+          <img
+            src={selectedWattage 
+              ? getTechnicalDiagramPath(selectedWattage) 
+              : (parameterItems.length > 0 ? getTechnicalDiagramPath(parameterItems[0]) : "/fake")
             }
-            onError={()=> setTechnicalDiagram(false)}
-            // src= {`/diagram/${ getField('product_datasheet').replace('.pdf', '')  }.png`}
-            // alt="Cutout Diagram"
-            className={`md:h-96 w-1/2 lg:w-auto rounded-2xl border-2 border-black aspect-square object-cover object-center ${technicalDiagram? "":"hidden"}`}
+            onError={() => setTechnicalDiagram(false)}
+            alt="Technical Diagram"
+            className={`md:h-96 w-1/2 lg:w-auto rounded-2xl border-2 border-black aspect-square object-cover object-center ${technicalDiagram ? "" : "hidden"}`}
           />
         </div>
       </div>
@@ -289,9 +291,9 @@ export default function Item() {
 
       {/* Conditionally render Parameters or Downloads */}
       {!showDownloads ? (
-        <Parameters setShowDownloads = {setShowDownloads}  setSelectedWattage = {setSelectedWattage} parameterItems = {parameterItems} loading = {loading}/>
+        <Parameters setShowDownloads={setShowDownloads} setSelectedWattage={setSelectedWattage} parameterItems={parameterItems} loading={loading} />
       ) : (
-        <Download selectedWattage = {selectedWattage} />
+        <Download selectedWattage={selectedWattage} />
       )}
     </div>
   );
