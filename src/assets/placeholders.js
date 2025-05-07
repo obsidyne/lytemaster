@@ -4,9 +4,9 @@ import gmbhPlaceholder from "@assets/landing/gmbh-placeholder.jpeg";
 import { bento } from "@components/projects/bentoGrid";
 
 /* Product thumbnails */
-import industrialLightingThumbnail2 from "@assets/landing/industrial-lighting-thumbnail2.jpeg";
+import industrialLightingThumbnail2 from "@assets/products/industrial-lighting-thumbnail2.jpeg";
 import commercialLightingThumbnail from "@assets/landing/commercial-lighting-thumbnail.jpeg";
-import landscapeLightingThumbnail2 from "@assets/landing/landscape-lighting-thumbnail2.jpeg";
+import landscapeLightingThumbnail2 from "@assets/products/landscape-lighting-thumbnail2.jpeg";
 import contactUsImage from "@assets/landing/contact-us.jpg";
 
 /* Industries placeholder images */
