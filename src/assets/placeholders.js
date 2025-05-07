@@ -4,9 +4,9 @@ import gmbhPlaceholder from "@assets/landing/gmbh-placeholder.jpeg";
 import { bento } from "@components/projects/bentoGrid";
 
 /* Product thumbnails */
-import industrialLightingThumbnail from "@assets/landing/industrial-lighting-thumbnail.jpeg";
+import industrialLightingThumbnail from "@assets/landing/industrial-lighting-thumbnail2.jpeg";
 import commercialLightingThumbnail from "@assets/landing/commercial-lighting-thumbnail.jpeg";
-import landscapeLightingThumbnail from "@assets/landing/landscape-lighting-thumbnail.jpeg";
+import landscapeLightingThumbnail from "@assets/landing/landscape-lighting-thumbnail2.jpeg";
 import contactUsImage from "@assets/landing/contact-us.jpg";
 
 /* Industries placeholder images */
@@ -51,8 +51,8 @@ export const placeholderImages = {
     about: gmbhPlaceholder,
     industries: heroPlaceholder,
     commercial: commercialLightingThumbnail,
-    industrial: industrialLightingThumbnail,
-    landscape: landscapeLightingThumbnail,
+    industrial: industrialLightingThumbnail2,
+    landscape: landscapeLightingThumbnail2,
     hero: heroPlaceholder,
     contact: contactUsImage,
 };
