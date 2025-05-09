@@ -14,6 +14,12 @@ const nextConfig = {
         port: "8000",
         pathname: "/project_image/**",
       },
+        {
+        protocol: "https",
+        hostname: "lytemaster.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
