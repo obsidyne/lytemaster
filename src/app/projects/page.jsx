@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { projectsData } from "@assets/placeholders";
 import { Heading, Paragraph } from "@components/common/text";
 
@@ -24,144 +25,10 @@ const OverviewSection = ({ title, description }) => {
   );
 };
 
-// Image Viewer Modal Component
-const ImageViewer = ({ isOpen, images, projectName, onClose }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (!isOpen) return;
-      
-      if (e.key === 'Escape') {
-        onClose();
-      } else if (e.key === 'ArrowLeft') {
-        goToPrevious();
-      } else if (e.key === 'ArrowRight') {
-        goToNext();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, currentIndex]);
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4">
-      {/* Close button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-white hover:text-gray-300 z-60"
-        aria-label="Close image viewer"
-      >
-        <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-
-      {/* Navigation buttons */}
-      {images.length > 1 && (
-        <>
-          <button
-            onClick={goToPrevious}
-            className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-60"
-            aria-label="Previous image"
-          >
-            <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          
-          <button
-            onClick={goToNext}
-            className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-60"
-            aria-label="Next image"
-          >
-            <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </>
-      )}
-
-      {/* Main image container */}
-      <div className="max-w-full max-h-[90vh] mx-auto">
-        <img
-          src={images[currentIndex]}
-          alt={`${projectName} - Image ${currentIndex + 1}`}
-          className="max-w-full max-h-full object-contain"
-        />
-        
-        {/* Image counter and project name */}
-        <div className="text-center mt-4 text-white px-4">
-          <h3 className="text-lg sm:text-xl font-semibold mb-2">{projectName}</h3>
-          {images.length > 1 && (
-            <p className="text-xs sm:text-sm opacity-75">
-              {currentIndex + 1} of {images.length}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Thumbnail navigation for multiple images */}
-      {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-colors ${
-                index === currentIndex ? 'bg-white' : 'bg-white bg-opacity-50'
-              }`}
-              aria-label={`Go to image ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 // Square Project Tile Component
-const ProjectTile = ({ project, onImageClick }) => {
+const ProjectTile = ({ project, onProjectClick }) => {
   const handleClick = () => {
-    if (!project.images) {
-      console.warn("No images available for project:", project.name);
-      return;
-    }
-
-    const allImages = project.images
-      .split(",")
-      .map((img) => `${process.env.NEXT_PUBLIC_BASE_URL}/project_image/${img.trim()}`)
-      .filter(Boolean);
-
-    if (allImages.length === 0) {
-      console.warn("No valid images found for project:", project.name);
-      return;
-    }
-
-    onImageClick(allImages, project.name);
+    onProjectClick(project);
   };
 
   const handleKeyDown = (e) => {
@@ -177,7 +44,7 @@ const ProjectTile = ({ project, onImageClick }) => {
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
-      aria-label={`View images for ${project.name} in ${project.location}`}
+      aria-label={`View project ${project.name} in ${project.location}`}
       className="relative group cursor-pointer rounded-lg overflow-hidden bg-gray-200 aspect-square hover:transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
     >
       <div className="relative w-full h-full">
@@ -208,7 +75,7 @@ const ProjectTile = ({ project, onImageClick }) => {
   );
 };
 
-const ProjectSection = ({ title, projects, onImageClick }) => {
+const ProjectSection = ({ title, projects, onProjectClick }) => {
   const [showAll, setShowAll] = useState(false);
   const maxTiles = 5;
   const hasMoreProjects = projects.length > maxTiles;
@@ -222,7 +89,7 @@ const ProjectSection = ({ title, projects, onImageClick }) => {
           <ProjectTile 
             key={`${project.name}-${index}`} 
             project={project} 
-            onImageClick={onImageClick}
+            onProjectClick={onProjectClick}
           />
         ))}
       </div>
@@ -267,11 +134,7 @@ export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [imageViewerData, setImageViewerData] = useState({
-    isOpen: false,
-    images: [],
-    projectName: ''
-  });
+  const router = useRouter();
 
   const fetchProjects = async () => {
     try {
@@ -310,25 +173,37 @@ export default function Projects() {
       });
 
       // Insert projects into correct category
-      responseData.forEach((project) => {
-        if (project.Lighting_Type) {
-          const cat_index = projects_category.indexOf(project.Lighting_Type);
-          if (cat_index !== -1) {
-            const firstImage = project.images?.split(",")[0]?.trim();
-            projects_data[cat_index].projects.push({
-              name: project.project_name || "Untitled Project",
-              location: project.Project_addr || "Location not specified",
-              images: project.images || "", // Store all images
-              image: {
-                src: firstImage 
-                  ? `${process.env.NEXT_PUBLIC_BASE_URL}/project_image/${firstImage}`
-                  : "/placeholder-image.jpg",
-                alt: project.project_name || "Project image",
-              },
-            });
-          }
-        }
+// In your Projects.js file, replace the project processing section with this:
+
+responseData.forEach((project) => {
+  if (project.Lighting_Type) {
+    const cat_index = projects_category.indexOf(project.Lighting_Type);
+    if (cat_index !== -1) {
+      const firstImage = project.images?.split(",")[0]?.trim();
+      
+      // Create a consistent ID - use the actual database ID if available
+      const projectId = project.id || 
+        project.project_name?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') || 
+        `project-${Math.random().toString(36).substr(2, 9)}`;
+      
+      projects_data[cat_index].projects.push({
+        id: projectId, // Use consistent ID
+        name: project.project_name || "Untitled Project",
+        location: project.Project_addr || "Location not specified",
+        images: project.images || "",
+        lightingType: project.Lighting_Type,
+        // Store the original database record for reference
+        originalData: project,
+        image: {
+          src: firstImage 
+            ? `${process.env.NEXT_PUBLIC_BASE_URL}/project_image/${firstImage}`
+            : "/placeholder-image.jpg",
+          alt: project.project_name || "Project image",
+        },
       });
+    }
+  }
+});
 
       console.log("Processed projects_data:", projects_data);
       
@@ -345,23 +220,21 @@ export default function Projects() {
   useEffect(() => {
     fetchProjects();
   }, []);
-
-  const handleImageClick = (images, projectName) => {
-    setImageViewerData({
-      isOpen: true,
-      images,
-      projectName
-    });
+const handleProjectClick = (project) => {
+    // Debug: Log the project being clicked
+    console.log("Clicking on project:", project);
+    console.log("Project ID:", project.id);
+    
+    // Navigate to project detail page using the project ID
+    if (project.id) {
+      router.push(`/projects/${project.id}`);
+    } else {
+      console.error("Project has no ID:", project);
+      // Fallback: use project name as slug
+      const projectSlug = project.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      router.push(`/projects/${projectSlug}`);
+    }
   };
-
-  const closeImageViewer = () => {
-    setImageViewerData({
-      isOpen: false,
-      images: [],
-      projectName: ''
-    });
-  };
-
   // Get overview section data with fallback
   const overviewData = projectsData?.overviewSection || {
     title: "Our Projects",
@@ -387,20 +260,12 @@ export default function Projects() {
               <ProjectSection 
                 key={`${project.tag}-${index}`} 
                 {...project} 
-                onImageClick={handleImageClick}
+                onProjectClick={handleProjectClick}
               />
             ))
           )}
         </>
       )}
-
-      {/* Image Viewer Modal */}
-      <ImageViewer
-        isOpen={imageViewerData.isOpen}
-        images={imageViewerData.images}
-        projectName={imageViewerData.projectName}
-        onClose={closeImageViewer}
-      />
     </>
   );
 }
