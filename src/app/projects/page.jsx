@@ -45,7 +45,7 @@ const ProjectTile = ({ project, onProjectClick }) => {
       tabIndex={0}
       role="button"
       aria-label={`View project ${project.name} in ${project.location}`}
-      className="relative group cursor-pointer rounded-lg overflow-hidden bg-gray-200 aspect-square hover:transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+      className="relative group cursor-pointer rounded-lg overflow-hidden bg-gray-200 aspect-square hover:transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 border border-gray-100 shadow-sm hover:shadow-md"
     >
       <div className="relative w-full h-full">
         <img
@@ -77,33 +77,51 @@ const ProjectTile = ({ project, onProjectClick }) => {
 
 const ProjectSection = ({ title, projects, onProjectClick }) => {
   const [showAll, setShowAll] = useState(false);
-  const maxTiles = 5;
+  const maxTiles = 4; // Changed from 5 to 4
   const hasMoreProjects = projects.length > maxTiles;
   const displayedProjects = showAll ? projects : projects.slice(0, maxTiles);
 
   return (
     <section className="w-full px-4 sm:px-8 py-6 sm:py-8 lg:px-16">
       <SectionTitle title={title} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 mt-4 sm:mt-6">
-        {displayedProjects.map((project, index) => (
-          <ProjectTile 
-            key={`${project.name}-${index}`} 
-            project={project} 
-            onProjectClick={onProjectClick}
-          />
-        ))}
-      </div>
       
-      {hasMoreProjects && (
-        <div className="flex justify-center mt-6">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="px-4 py-2 sm:px-6 sm:py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-300 text-sm sm:text-base font-medium"
-          >
-            {showAll ? 'Show Less' : `Show More (${projects.length - maxTiles} more)`}
-          </button>
+      {/* Grid container with enhanced visual grid appearance */}
+      <div className="mt-4 sm:mt-6 p-4 bg-gray-50/30 rounded-xl border border-gray-100">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {displayedProjects.map((project, index) => (
+            <ProjectTile 
+              key={`${project.name}-${index}`} 
+              project={project} 
+              onProjectClick={onProjectClick}
+            />
+          ))}
         </div>
-      )}
+        
+        {hasMoreProjects && (
+          <div className="flex justify-center mt-6 pt-4 border-t border-gray-200">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="px-4 py-2 sm:px-6 sm:py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-300 text-sm sm:text-base font-medium flex items-center gap-2"
+            >
+              {showAll ? (
+                <>
+                  Show Less
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                  </svg>
+                </>
+              ) : (
+                <>
+                  Show More ({projects.length - maxTiles} more)
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };
@@ -173,37 +191,35 @@ export default function Projects() {
       });
 
       // Insert projects into correct category
-// In your Projects.js file, replace the project processing section with this:
-
-responseData.forEach((project) => {
-  if (project.Lighting_Type) {
-    const cat_index = projects_category.indexOf(project.Lighting_Type);
-    if (cat_index !== -1) {
-      const firstImage = project.images?.split(",")[0]?.trim();
-      
-      // Create a consistent ID - use the actual database ID if available
-      const projectId = project.id || 
-        project.project_name?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') || 
-        `project-${Math.random().toString(36).substr(2, 9)}`;
-      
-      projects_data[cat_index].projects.push({
-        id: projectId, // Use consistent ID
-        name: project.project_name || "Untitled Project",
-        location: project.Project_addr || "Location not specified",
-        images: project.images || "",
-        lightingType: project.Lighting_Type,
-        // Store the original database record for reference
-        originalData: project,
-        image: {
-          src: firstImage 
-            ? `${process.env.NEXT_PUBLIC_BASE_URL}/project_image/${firstImage}`
-            : "/placeholder-image.jpg",
-          alt: project.project_name || "Project image",
-        },
+      responseData.forEach((project) => {
+        if (project.Lighting_Type) {
+          const cat_index = projects_category.indexOf(project.Lighting_Type);
+          if (cat_index !== -1) {
+            const firstImage = project.images?.split(",")[0]?.trim();
+            
+            // Create a consistent ID - use the actual database ID if available
+            const projectId = project.id || 
+              project.project_name?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') || 
+              `project-${Math.random().toString(36).substr(2, 9)}`;
+            
+            projects_data[cat_index].projects.push({
+              id: projectId, // Use consistent ID
+              name: project.project_name || "Untitled Project",
+              location: project.Project_addr || "Location not specified",
+              images: project.images || "",
+              lightingType: project.Lighting_Type,
+              // Store the original database record for reference
+              originalData: project,
+              image: {
+                src: firstImage 
+                  ? `${process.env.NEXT_PUBLIC_BASE_URL}/project_image/${firstImage}`
+                  : "/placeholder-image.jpg",
+                alt: project.project_name || "Project image",
+              },
+            });
+          }
+        }
       });
-    }
-  }
-});
 
       console.log("Processed projects_data:", projects_data);
       
@@ -220,7 +236,8 @@ responseData.forEach((project) => {
   useEffect(() => {
     fetchProjects();
   }, []);
-const handleProjectClick = (project) => {
+
+  const handleProjectClick = (project) => {
     // Debug: Log the project being clicked
     console.log("Clicking on project:", project);
     console.log("Project ID:", project.id);
@@ -235,6 +252,7 @@ const handleProjectClick = (project) => {
       router.push(`/projects/${projectSlug}`);
     }
   };
+
   // Get overview section data with fallback
   const overviewData = projectsData?.overviewSection || {
     title: "Our Projects",
