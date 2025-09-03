@@ -74,16 +74,16 @@ export const projectsData = {
                 href: "#",
             },
             projects: [
-                {
-                    name: "Forum Showroom",
-                    location: "Dubai, UAE",
-                    image: {
-                        src: placeholderImages.bento[3],
-                        alt: "Dubai, UAE",
-                    },
-                    href: "#",
-                    className: bento.lg,
-                },
+                // {
+                //     name: "Forum Showroom",
+                //     location: "Dubai, UAE",
+                //     image: {
+                //         src: placeholderImages.bento[3],
+                //         alt: "Dubai, UAE",
+                //     },
+                //     href: "#",
+                //     className: bento.lg,
+                // },
                 {
                     name: "Beach Bar Restaurant",
                     location: "Jumeirah, UAE",
@@ -134,16 +134,16 @@ export const projectsData = {
                     href: "#",
                     className: bento.sm,
                 },
-                {
-                    name: "Forum Showroom",
-                    location: "Dubai, UAE",
-                    image: {
-                        src: placeholderImages.bento[3],
-                        alt: "Dubai, UAE",
-                    },
-                    href: "#",
-                    className: bento.lg,
-                },
+                // {
+                //     name: "Forum Showroom",
+                //     location: "Dubai, UAE",
+                //     image: {
+                //         src: placeholderImages.bento[3],
+                //         alt: "Dubai, UAE",
+                //     },
+                //     href: "#",
+                //     className: bento.lg,
+                // },
                 {
                     name: "Beach Bar Restaurant",
                     location: "Jumeirah, UAE",
@@ -228,16 +228,16 @@ export const projectsData = {
                     href: "#",
                     className: bento.sm,
                 },
-                {
-                    name: "Forum Showroom",
-                    location: "Dubai, UAE",
-                    image: {
-                        src: placeholderImages.bento[8],
-                        alt: "New York, USA",
-                    },
-                    href: "#",
-                    className: bento.lg,
-                },
+                // {
+                //     name: "Forum Showroom",
+                //     location: "Dubai, UAE",
+                //     image: {
+                //         src: placeholderImages.bento[8],
+                //         alt: "New York, USA",
+                //     },
+                //     href: "#",
+                //     className: bento.lg,
+                // },
                 {
                     name: "Glicerin Bay Office",
                     location: "London, UK",
