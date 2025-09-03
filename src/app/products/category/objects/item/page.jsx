@@ -16,10 +16,10 @@ export default function Item() {
   const [isClient, setIsClient] = useState(false);
   const [showDownloads, setShowDownloads] = useState(false);
   const [currentProduct, setCurrentProduct] = useState({});
-  
+
   const searchParams = useSearchParams();
-  const productName = searchParams.get('product_name'); 
-  const familyName = searchParams.get('family_name'); 
+  const productName = searchParams.get('product_name');
+  const familyName = searchParams.get('family_name');
   const category_id = searchParams.get('category_id');
   const product_id = searchParams.get('product_id');
 
@@ -114,31 +114,45 @@ export default function Item() {
             alt="Dazzle Light"
             className="md:w-96 w-80 aspect-square rounded-2xl border-2 border-black"
           />
-          
+
           <img
-            src={selectedWattage 
-              ? getDatasheetImagePath(selectedWattage) 
+            src={selectedWattage
+              ? getDatasheetImagePath(selectedWattage)
               : (parameterItems.length > 0 ? getDatasheetImagePath(parameterItems[0]) : "/fake")
             }
-            onError={() => setLdDiagram(false)}
+            onLoad={() => {
+              console.log("image1 loaded successfully");
+              setLdDiagram(true); // for example
+            }}
+            onError={() => {
+              console.log("failed to load image1")
+              setLdDiagram(false)
+            }}
             alt="Light Distribution Diagram"
             className={`md:h-96 w-1/2 lg:w-auto rounded-2xl border-2 border-black aspect-square object-cover object-center ${ld_diagram ? "" : "hidden"}`}
           />
-          
+
           <img
-            src={selectedWattage 
-              ? getTechnicalDiagramPath(selectedWattage) 
+            src={selectedWattage
+              ? getTechnicalDiagramPath(selectedWattage)
               : (parameterItems.length > 0 ? getTechnicalDiagramPath(parameterItems[0]) : "/fake")
             }
-            onError={() => setTechnicalDiagram(false)}
+               onLoad={() => {
+              console.log("image loaded successfully");
+              setTechnicalDiagram(true); // for example
+            }}
+            onError={() => {
+              console.log("failed to load image")
+              setTechnicalDiagram(false)
+            }}
             alt="Technical Diagram"
-            className={`md:h-96 w-1/2 lg:w-auto rounded-2xl border-2 border-black aspect-square object-cover object-center ${technicalDiagram ? "" : "hidden"}`}
+            className={`md:h-96 w-1/2 lg:w-auto rounded-2xl border-2 border-black aspect-square object-cover object-center ${technicalDiagram? "" : "hidden"}`}
           />
         </div>
       </div>
 
       {/* Specifications */}
-      <div className="flex flex-col lg:flex-row flex-1 justify-evenly lg:mx-40 w-full overflow-hidden mt-8 mb-8 px-5">  
+      <div className="flex flex-col lg:flex-row flex-1 justify-evenly lg:mx-40 w-full overflow-hidden mt-8 mb-8 px-5">
         <div className="flex flex-col gap-8 w-full">
           <div>
             <h2 className="text-xl font-semibold">General</h2>
