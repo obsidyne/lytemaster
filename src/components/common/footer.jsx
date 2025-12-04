@@ -50,15 +50,14 @@ const footerLinks = [
       { name: "Awards", link: "#" },
     ],
   },
-  // {
-    // section: "Contacts",
-    // links: [
-    //   { name: "Legal Disclaimer", link: "#" },
-    //   { name: "Privacy Policy", link: "#" },
-    //   { name: "Terms of Use", link: "#" },
-    //   { name: "General", link: "#" },
-    // ],
-  // },
+  {
+    section: "Legal",
+    links: [
+      { name: "Impressum", link: "/imprint" },
+      { name: "Privacy Policy", link: "#" },
+      { name: "Terms of Use", link: "#" },
+    ],
+  },
 ];
 
 const FooterSection = ({ section, links }) => {
