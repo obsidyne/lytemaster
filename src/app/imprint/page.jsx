@@ -2,7 +2,7 @@ export default function Imprint() {
   return (
     <div className="min-h-screen bg-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-gray-900">Impressum</h1>
+        <h1 className="text-4xl font-bold mb-8 text-gray-900">Imprint</h1>
 
         <div className="space-y-6 text-gray-700">
           <section>
@@ -22,17 +22,6 @@ export default function Imprint() {
               Fax: +49 (228) 350 638 - 38<br />
               Email: <a href="mailto:info@lytemaster.com" className="text-blue-600 hover:underline">info@lytemaster.com</a><br />
               Website: <a href="https://www.lytemaster.com" className="text-blue-600 hover:underline">www.lytemaster.com</a>
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-semibold mb-3 text-gray-900">Bank Details</h2>
-            <p className="leading-relaxed">
-              Bank: Sparkasse Köln/Bonn<br />
-              Account: 1930237712<br />
-              BLZ: 37050198<br />
-              SWIFT/BIC: COLSDE33XXX<br />
-              IBAN: DE40 3705 0198 1930 2377 12
             </p>
           </section>
 
