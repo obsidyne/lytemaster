@@ -4,8 +4,8 @@ import { Instagram, Facebook, Linkedin, Twitter } from "lucide-react";
 import logo from "@public/logo.png";
 
 const address = `
-Lyte Master GmbH 
-Auf Dem SchurweBel, 
+Lyte Master GmbH
+Auf Dem Schurweßel,
 5A 53347 Alfter-Witterschlick Germany
 `;
 
@@ -50,15 +50,14 @@ const footerLinks = [
       { name: "Awards", link: "#" },
     ],
   },
-  // {
-    // section: "Contacts",
-    // links: [
-    //   { name: "Legal Disclaimer", link: "#" },
-    //   { name: "Privacy Policy", link: "#" },
-    //   { name: "Terms of Use", link: "#" },
-    //   { name: "General", link: "#" },
-    // ],
-  // },
+  {
+    section: "Legal",
+    links: [
+      { name: "Imprint", link: "/imprint" },
+      { name: "Privacy Policy", link: "#" },
+      { name: "Terms of Use", link: "#" },
+    ],
+  },
 ];
 
 const FooterSection = ({ section, links }) => {
