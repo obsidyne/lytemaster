@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { FiFilter } from 'react-icons/fi';
 import Link from 'next/link';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 
-export default function Category() {
+// Separate component that uses useSearchParams
+function CategoryContent() {
   const searchParams = useSearchParams();
   const category_id = searchParams.get('category_id');
   
@@ -380,4 +381,13 @@ export default function Category() {
       </main>
     </div>
   );
-} 
+}
+
+// Main component with Suspense boundary
+export default function Category() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <CategoryContent />
+    </Suspense>
+  );
+}

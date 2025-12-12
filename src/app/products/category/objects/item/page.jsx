@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Parameters from '@/components/products/parameters';
 import Download from '@/components/products/download';
@@ -10,7 +10,8 @@ import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { MdSettingsPhone } from 'react-icons/md';
 
-export default function Item() {
+// Separate component that uses useSearchParams
+function ItemContent() {
   const [standardOpen, setStandardOpen] = useState(false);
   const [extendedOpen, setExtendedOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -310,5 +311,14 @@ export default function Item() {
         <Download selectedWattage={selectedWattage} />
       )}
     </div>
+  );
+}
+
+// Main component with Suspense boundary
+export default function Item() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <ItemContent />
+    </Suspense>
   );
 }
